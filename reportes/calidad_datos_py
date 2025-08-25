@@ -1,0 +1,5 @@
+import pandas as pd
+import numpy as np
+
+# Leer los datos
+df = pd.read_excel('datos/JEFAB_2024.xlsx')
