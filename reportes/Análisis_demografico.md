@@ -35,6 +35,8 @@ plt.show()
 moda = df['EDAD2'].mode()[0] # Calcular la moda (el valor que más se repite) en la columna 'EDAD2'
 print("La edad más común es:", moda,"años") # Imprimir la moda con un mensaje
 
+#hola 
+
 # 2. ¿Hay diferencias en la distribución por Sexo?
 
 ## distribucion por Sexo
