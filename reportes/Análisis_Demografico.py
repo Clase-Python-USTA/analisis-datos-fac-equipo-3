@@ -1,3 +1,7 @@
+# instalar librerias
+!pip install pyreadr
+!pip install upsetplot
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -172,10 +176,10 @@ sns.countplot(data=df_filtrado, x="ESTRATO", hue="SEXO") # Gráfico de barras co
 plt.title("Estrato según el sexo")
 plt.show()
 
-# hijos por género ---
+#Distribución de Hijos según el Sexo---
 plt.figure(figsize=(10,6)) # Crear la figura del gráfico y definir el tamaño (ancho=10, alto=6)
 sns.countplot(data=df_filtrado, x="HIJOS", hue="SEXO") # Gráfico de barras con Seaborn (countplot),#data=df → usa los datos del DataFrame, hue="SEXO" → divide cada barra por sexo
-plt.title("hijos por sexo")
+plt.title("Cantidad de Hijos por Sexo")
 plt.show()
 
 # 3. ¿Cuál es el grado militar más frecuente?
@@ -199,4 +203,4 @@ plt.title("Distribución de Grados Militares por Sexo") # Poner título al gráf
 plt.show()
 
 #añado eñ código de colab
-# https://colab.research.google.com/drive/1R2SJd3UIARMzy6lCdaNYP596ye9KiqAz?usp=sharing
+#https://colab.research.google.com/drive/1R2SJd3UIARMzy6lCdaNYP596ye9KiqAz?usp=sharing
