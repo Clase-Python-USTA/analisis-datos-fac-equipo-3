@@ -4,9 +4,9 @@
 
 Se realizó una visualización tipo UpSet para identificar las combinaciones de columnas con datos faltantes.
 
-## 2. Filtro de columnas solicitado por los compañeros B y C
+## 2. Filtro de columnas solicitado por los compañeros A y B
 
-Por solicitud de los compañeros B y C, se filtró el DataFrame para trabajar únicamente con las siguientes columnas relevantes para el análisis:
+Por solicitud de los compañeros A y B, se filtró el DataFrame para trabajar únicamente con las siguientes columnas relevantes para el análisis:
 
 - SEXO
 - GENERO
