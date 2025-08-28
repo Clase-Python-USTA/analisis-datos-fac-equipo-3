@@ -160,19 +160,6 @@ tabla = df_filtrado['RANGO_EDAD'].value_counts().sort_index() #sort_index()   ->
 print("=== Personas por rango de edad ===")
 print(tabla)
 
-# Contar cuántas personas hay en cada rango de edad
-tabla = df_filtrado['RANGO_EDAD'].value_counts().sort_index()
-
-# Mostrar resultados
-print("=== Personas por rango de edad ===")
-print(tabla)
-
-# Contar cuántas personas hay en cada rango de edad
-tabla = df['RANGO_EDAD'].value_counts().sort_index()
-
-# Mostrar resultados
-print("=== Personas por rango de edad ===")
-print(tabla)
 
 # 2. ¿Hay diferencias en la distribución por Sexo?
 
