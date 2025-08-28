@@ -219,15 +219,15 @@ plt.show()
 
 # Análisis de estado civil
 print("===ANÁLISIS ESTADO CIVIL===")
-print(df["ESTADO_CIVIL"].value_counts())
+print(df_filtrado["ESTADO_CIVIL"].value_counts())
 
 # Análisis de hijos
 print("\n===ANÁLISIS DE HIJOS===")
-print(df["HIJOS"].value_counts())
+print(df_filtrado["HIJOS"].value_counts())
 
 # Análisis de convivencia familiar
 print("\n===ANÁLISIS DE CONVIVENCIA FAMILIAR===")
-print(f"Habita con familia: {df["HABITA_VIVIENDA_FAMILIAR"].value_counts()}")
+print(f"Habita con familia: {df_filtrado["HABITA_VIVIENDA_FAMILIAR"].value_counts()}")
 
 # Gráfico de estado civil
 plt.figure(figsize=(10, 6))
@@ -240,7 +240,7 @@ plt.tight_layout()
 plt.show()
 
 # Calculate value counts and percentages for 'ESTADO_CIVIL'
-estado_civil_counts = df["ESTADO_CIVIL"].value_counts()
+estado_civil_counts = df_filtrado["ESTADO_CIVIL"].value_counts()
 total_individuals = estado_civil_counts.sum()
 estado_civil_percentages = (estado_civil_counts / total_individuals) * 100
 
@@ -255,7 +255,7 @@ display(estado_civil_table)
 
 # ¿Cuántos tienen hijos y cuántos viven con ellos?
 # Create a cross-tabulation of the two columns
-cross_tab = pd.crosstab(df['HIJOS'], df['HIJOS_EN_HOGAR'])
+cross_tab = pd.crosstab(df_filtrado['HIJOS'], df_filtrado['HIJOS_EN_HOGAR'])
 
 # Create a grouped bar chart
 cross_tab.plot(kind='bar', figsize=(8, 6))
@@ -281,7 +281,7 @@ plt.show()
 
 # Crear un histograma para NUMERO_PERSONAS_APORTE_SOSTENIMIENTO2
 plt.figure(figsize=(10, 6))
-plt.hist(df['NUMERO_PERSONAS_APORTE_SOSTENIMIENTO2'], bins=20, edgecolor='black') # Puedes ajustar el número de bins
+plt.hist(df_filtrado['NUMERO_PERSONAS_APORTE_SOSTENIMIENTO2'], bins=20, edgecolor='black') # Puedes ajustar el número de bins
 plt.title("Distribución del Número de Personas que Aportan al Sostenimiento del Hogar")
 plt.xlabel("Número de Personas que Aportan")
 plt.ylabel("Frecuencia")
@@ -290,7 +290,7 @@ plt.tight_layout()
 plt.show()
 
 # Visualizar la distribución de si la madre vive
-madre_vive_counts = df[['MADRE_VIVE_SI', 'MADRE_VIVE_NO']].sum()
+madre_vive_counts = df_filtrado[['MADRE_VIVE_SI', 'MADRE_VIVE_NO']].sum()
 
 plt.figure(figsize=(8, 6))
 madre_vive_counts.plot(kind='bar')
@@ -302,7 +302,7 @@ plt.tight_layout()
 plt.show()
 
 # Visualizar la distribución de si la madre vive
-padre_vive_counts = df[['PADRE_VIVE_SI', 'PADRE_VIVE_NO']].sum()
+padre_vive_counts = df_filtrado[['PADRE_VIVE_SI', 'PADRE_VIVE_NO']].sum()
 
 plt.figure(figsize=(8, 6))
 madre_vive_counts.plot(kind='bar')
@@ -314,13 +314,13 @@ plt.tight_layout()
 plt.show()
 
 print("Características de la variable NUMERO_HIJOS:")
-print(df['NUMERO_HIJOS'].info())
+print(df_filtrado['NUMERO_HIJOS'].info())
 print("\nConteo de valores de la variable NUMERO_HIJOS:")
-print(df['NUMERO_HIJOS'].value_counts(dropna=False).head()) # Mostrar los primeros valores, incluyendo NaN
+print(df_filtrado['NUMERO_HIJOS'].value_counts(dropna=False).head()) # Mostrar los primeros valores, incluyendo NaN
 
 # Crear un histograma para NUMERO_PERSONAS_APORTE_SOSTENIMIENTO2
 plt.figure(figsize=(10, 6))
-plt.hist(df['NUMERO_HIJOS'], bins=20, edgecolor='black') # Puedes ajustar el número de bins
+plt.hist(df_filtrado['NUMERO_HIJOS'], bins=20, edgecolor='black') # Puedes ajustar el número de bins
 plt.title("Distribución del Número de Hijos")
 plt.xlabel("Número de Hijos")
 plt.ylabel("Frecuencia")
