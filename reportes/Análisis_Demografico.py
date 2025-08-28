@@ -145,13 +145,27 @@ moda = df_filtrado['EDAD2'].mode()[0] # Calcular la moda (el valor que más se r
 print("La edad más común es:", moda,"años") # Imprimir la moda con un mensaje
 
 # Crear rangos de edad cada 4 años (desde la edad mínima hasta la máxima +5)
-# en bins el último número no se incluye, por eso se le suma +5
-df['RANGO_EDAD'] = pd.cut( # ayuda en crar intervalos (categorias por rangos)
+# en bins el último número no se incluye, por eso se le suma +5 # ayuda en crar intervalos (categorias por rangos)
+df_filtrado['RANGO_EDAD'] = pd.cut(                     
     df['EDAD2'],                                        # Columna de edades
-    bins=range(int(df['EDAD2'].min()),                  # Edad mínima en los datos
-               int(df['EDAD2'].max())+5,4)                # Edad máxima +5 # Tamaño del intervalo (aquí 4 años)
+    bins=range(int(df_filtrado['EDAD2'].min()),         # Edad mínima en los datos
+               int(df_filtrado['EDAD2'].max())+5,4),include_lowest=True    # Edad máxima +5 # Tamaño del intervalo (aquí 4 años)
                                                       
 )
+
+# Contar cuántas personas hay en cada rango de edad
+tabla = df_filtrado['RANGO_EDAD'].value_counts().sort_index() #sort_index()   -> ordena los resultados por el índice , value_counts() cuenta cuántos registros hay en cada categoría 
+
+# Mostrar resultados
+print("=== Personas por rango de edad ===")
+print(tabla)
+
+# Contar cuántas personas hay en cada rango de edad
+tabla = df_filtrado['RANGO_EDAD'].value_counts().sort_index()
+
+# Mostrar resultados
+print("=== Personas por rango de edad ===")
+print(tabla)
 
 # Contar cuántas personas hay en cada rango de edad
 tabla = df['RANGO_EDAD'].value_counts().sort_index()
