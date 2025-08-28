@@ -2,74 +2,109 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import missingno as msno  
-import janitor
-import matplotlib.pyplot as plt
-import missingno
 import pyreadr
 import seaborn as sns
-import upsetplot
-
-# Leer los datos
-df = pd.read_excel('datos/JEFAB_2024.xlsx')
-
-# Mostrar el tamaño del DataFrame
-print(f"Tamaño del DataFrame: {df.shape}")
-
-print(df.info())
-
-# Análisis de datos faltantes
-print("=== ANÁLISIS DE DATOS FALTANTES ===")
-missing_data = df.isnull().sum()
-missing_percent = (missing_data / len(df)) * 100
-print("Top 10 columnas con más datos faltantes:")
-missing_info = pd.DataFrame({
-'Columna': missing_data.index,
-'Datos_Faltantes': missing_data.values,
-'Porcentaje': missing_percent.values
-}).sort_values('Datos_Faltantes', ascending=False)
-print(missing_info.head(10))
-# Análisis de duplicados
-print(f"\n=== ANÁLISIS DE DUPLICADOS ===")
-print(f"Registros duplicados: {df.duplicated().sum()}")
-# Análisis de tipos de datos
-print(f"\n=== TIPOS DE DATOS ===")
-print(df.dtypes.value_counts())
-# Identificar columnas problemáticas
-print(f"\n=== COLUMNAS CON CARACTERES ESPECIALES ===")
-problematic_columns = [col for col in df.columns if 'Ã' in col or 'â' in col]
-print(f"Columnas con encoding problemático: {len(problematic_columns)}")
-for col in problematic_columns[:5]:
-    print(f" - {col}")
-#nueva linea
-
-
-# Matriz Datos Faltantes
-from upsetplot import UpSet
-from upsetplot import from_contents
 import warnings
+from upsetplot import UpSet, from_contents
+from sklearn.experimental import enable_iterative_imputer  # noqa
+from sklearn.impute import IterativeImputer
+
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
+# ======================================================
+# 1. Cargar los datos
+# ======================================================
+df = pd.read_excel('datos/JEFAB_2024.xlsx')
+print(f"Tamaño del DataFrame original: {df.shape}")
+print(df.info())
+
+# ======================================================
+# 2. Análisis inicial de datos faltantes
+# ======================================================
+print("\n=== ANÁLISIS DE DATOS FALTANTES (DataFrame completo) ===")
+missing_data = df.isnull().sum()
+missing_percent = (missing_data / len(df)) * 100
+missing_info = pd.DataFrame({
+    'Columna': missing_data.index,
+    'Datos_Faltantes': missing_data.values,
+    'Porcentaje': missing_percent.values
+}).sort_values('Datos_Faltantes', ascending=False)
+print(missing_info.head(10))
+
+# Visualización con UpSet
 missing_by_column = {col: df.index[df[col].isnull()] for col in df.columns if df[col].isnull().any()}
 upset_data = from_contents(missing_by_column)
-
 upset = UpSet(upset_data)
 upset.plot()
 plt.show()
 
-# Imputación MICE
+# ======================================================
+# 3. Filtrar columnas antes de imputación
+# ======================================================
+columnas_filtrar = [
+    "SEXO", "GENERO", "EDAD2", "ESTRATO", "NIVEL_EDUCATIVO",
+    "NUMERO_PERSONAS_APORTE_SOSTENIMIENTO2", "NUMERO_HABITAN_VIVIENDA2",
+    "NUMERO_HIJOS", "HIJOS_EN_HOGAR", "EDAD_RANGO_PADRE", "EDAD_PADRE",
+    "EDAD_RANGO_MADRE", "EDAD_MADRE", "EDAD_RANGO", "ESTADO_CIVIL",
+    "HIJOS", "HABITA_VIVIENDA_FAMILIAR", "MADRE_VIVE_SI", "MADRE_VIVE_NO",
+    "NUMERO_HIJOS_RANGO", "GRADO", "NIVEL EDUCATIVO"
+]
+
+columnas_existentes = [col for col in columnas_filtrar if col in df.columns]
+df_filtrado = df[columnas_existentes]
+
+
+# ======================================================
+# 4. Imputación MICE en columnas numéricas del DataFrame filtrado
+# ======================================================
 from sklearn.experimental import enable_iterative_imputer  # noqa
 from sklearn.impute import IterativeImputer
 
-# Selecciona solo las columnas numéricas para imputación
-numeric_cols = df.select_dtypes(include=[np.number]).columns
-imputer = IterativeImputer(random_state=0)
-df[numeric_cols] = imputer.fit_transform(df[numeric_cols])
+# Columnas numéricas
+numeric_cols = df_filtrado.select_dtypes(include=[np.number]).columns
+print(f"\nColumnas numéricas a imputar: {list(numeric_cols)}")
 
-print("Imputación MICE completada para columnas numéricas.")
+# Imputador con restricción de valores mínimos
+imputer = IterativeImputer(random_state=0, min_value=0)
+df_filtrado[numeric_cols] = imputer.fit_transform(df_filtrado[numeric_cols])
 
-faltantes_post = df[numeric_cols].isnull().sum()
-print("\nDatos faltantes por columna después de la imputación MICE:")
+print("\nImputación MICE completada en DataFrame filtrado (sin negativos).")
+
+# ======================================================
+# 4.1 Redondear columnas de conteos
+# ======================================================
+conteos_cols = ["NUMERO_HIJOS", "HIJOS_EN_HOGAR", "NUMERO_PERSONAS_APORTE_SOSTENIMIENTO2",
+                "NUMERO_HABITAN_VIVIENDA2", "NUMERO_HIJOS_RANGO"]
+
+# Redondear y convertir a enteros SOLO si existen en el DataFrame
+for col in conteos_cols:
+    if col in df_filtrado.columns:
+        df_filtrado[col] = df_filtrado[col].round().astype(int)
+
+print("\nColumnas de conteos redondeadas a enteros.")
+
+# ======================================================
+# 5. Validación de resultados
+# ======================================================
+faltantes_post = df_filtrado[numeric_cols].isnull().sum()
+print("\nDatos faltantes por columna después de imputación:")
 print(faltantes_post)
-# Si quieres ver el total de faltantes:
 print(f"Total de datos faltantes después de imputación: {faltantes_post.sum()}")
-# ...existing code...
+
+print("\nPrimeras filas del DataFrame imputado y filtrado:")
+print(df_filtrado.head())
+
+# 1. Columnas con más datos faltantes
+print("\n=== Columnas con más datos faltantes ===")
+print(missing_info.head(10))
+
+# 2. Registros duplicados
+print("\n=== ANÁLISIS DE DUPLICADOS ===")
+print(f"Registros duplicados: {df.duplicated().sum()}")
+
+# 3. Problemas de encoding
+print("\n=== Problemas de encoding en nombres de columnas ===")
+problematic_columns = [col for col in df.columns if not all(ord(c) < 128 for c in col)]
+print(f"Columnas con encoding problemático: {len(problematic_columns)}")
+for col in problematic_columns:
+    print(f" - {col}")
