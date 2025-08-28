@@ -87,4 +87,4 @@ plt.title("Distribución de Grados Militares por Sexo") # Poner título al gráf
 plt.show()
 
 #añado eñ código de colab
-# https://colab.research.google.com/drive/1R2SJd3UIARMzy6lCdaNYP596ye9KiqAz?usp=sharing
+#https://colab.research.google.com/drive/1R2SJd3UIARMzy6lCdaNYP596ye9KiqAz?usp=sharing
