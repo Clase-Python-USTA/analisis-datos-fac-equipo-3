@@ -67,7 +67,7 @@ sns.countplot(data=df, x="ESTRATO", hue="SEXO") # Gráfico de barras con Seaborn
 plt.title("Estrato según el sexo")
 plt.show()
 
-## hijos por género ---
+## Cantidad de Hijos por Sexo ---
 plt.figure(figsize=(10,6)) # Crear la figura del gráfico y definir el tamaño (ancho=10, alto=6)
 sns.countplot(data=df, x="HIJOS", hue="SEXO") # Gráfico de barras con Seaborn (countplot),#data=df → usa los datos del DataFrame, hue="SEXO" → divide cada barra por sexo
 plt.title("hijos por sexo")
