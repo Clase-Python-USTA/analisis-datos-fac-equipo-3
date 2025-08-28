@@ -15,7 +15,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 # ======================================================
 # 1. Cargar los datos
 # ======================================================
-df = pd.read_excel('datos/JEFAB_2024.xlsx')
+df = pd.read_excel('/content/JEFAB_2024.xlsx')
 print(f"Tamaño del DataFrame original: {df.shape}")
 print(df.info())
 
