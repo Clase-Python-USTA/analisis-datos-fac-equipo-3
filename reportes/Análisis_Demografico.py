@@ -85,7 +85,7 @@ plt.title("Distribución de Grados Militares") # Poner título al gráfico
 plt.show()#mostrar
 
 
-
+# Gráfica de Distribución de Grados Militares por Sexo
 plt.figure(figsize=(12,6)) # Crear una figura y definir el tamaño del gráfico (ancho=12, alto=6)
 sns.countplot(data=df, x="GRADO", hue="SEXO",order=df['GRADO'].value_counts().index) # - order=df['GRADO'].value_counts().index → ordena los grados según su frecuencia (más comunes primero)
 plt.xticks(rotation=45) # Rotar las etiquetas del eje X 45 grados para que se lean mejor
