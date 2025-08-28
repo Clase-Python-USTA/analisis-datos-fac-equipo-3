@@ -302,7 +302,7 @@ plt.tight_layout()
 plt.show()
 
 # Visualizar la distribución de si la madre vive
-padre_vive_counts = df_filtrado[['PADRE_VIVE_SI', 'PADRE_VIVE_NO']].sum()
+padre_vive_counts = df[['PADRE_VIVE_SI', 'PADRE_VIVE_NO']].sum()
 
 plt.figure(figsize=(8, 6))
 madre_vive_counts.plot(kind='bar')
