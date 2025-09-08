@@ -2,6 +2,8 @@
 
 ## Descripción General del Proyecto
 
+#### Fredy Chavarro - Hayder Rodriguez - Ricardo Vargas
+
 Este proyecto tiene como objetivo realizar un análisis exploratorio de un conjunto de datos (`JEFAB_2024.xlsx`) para comprender las características de la población estudiada. Estan son sus etapas:
 
 1.  **Carga de Datos:** Se ha cargado el conjunto de datos desde un archivo Excel a un DataFrame de pandas.
